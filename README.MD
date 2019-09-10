@@ -6,8 +6,10 @@ To recreate virtual environment:
 - pull the repo, cd into it and run `pipenv install`
 - at this point should recreate the env needed for the work
 
-To add viertual env kernel to Jupyter:
-- run `pipenv run python -m ipykernel install --name CS231n`
+To add virtual env kernel to Jupyter:
+- Jupyter should be installed for user
+- run `pipenv run python -m ipykernel install -- user --name CS231n`
+- If use `CS231n`, no need to change kernel inside the notebooks
 
 How to use:
 - just work through official course syllabus and have fun!
