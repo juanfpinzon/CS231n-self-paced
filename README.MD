@@ -8,8 +8,8 @@ To recreate virtual environment:
 
 To add virtual env kernel to Jupyter:
 - Jupyter should be installed for user
-- run `pipenv run python -m ipykernel install -- user --name CS231n`
-- If use `CS231n`, no need to change kernel inside the notebooks
+- run `pipenv run python -m ipykernel install -- user --name CS231n-self-paced`
+- If use `CS231n-self-paced`, no need to switch kernel inside the notebooks
 
 How to use:
 - just work through official course syllabus and have fun!
