@@ -4,7 +4,7 @@ from builtins import range
 from builtins import object
 import numpy as np
 from cs231n.classifiers.linear_svm_juan import *
-from cs231n.classifiers.softmax import *
+from cs231n.classifiers.softmax_juan import *
 
 
 class LinearClassifier(object):
