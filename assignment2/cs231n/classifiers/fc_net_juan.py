@@ -6,18 +6,15 @@ from cs231n.layers_juan import *
 from cs231n.layer_utils_juan import *
 
 
-class TwoLayerNetJuan(object):
+class TwoLayerNet(object):
     """
     A two-layer fully-connected neural network with ReLU nonlinearity and
     softmax loss that uses a modular layer design. We assume an input dimension
     of D, a hidden dimension of H, and perform classification over C classes.
-
-    The architecure should be affine - relu - affine - softmax.
-
+    The architecture should be affine - relu - affine - softmax.
     Note that this class does not implement gradient descent; instead, it
     will interact with a separate Solver object that is responsible for running
     optimization.
-
     The learnable parameters of the model are stored in the dictionary
     self.params that maps parameter names to numpy arrays.
     """
@@ -26,7 +23,6 @@ class TwoLayerNetJuan(object):
                  weight_scale=1e-3, reg=0.0):
         """
         Initialize a new network.
-
         Inputs:
         - input_dim: An integer giving the size of the input
         - hidden_dim: An integer giving the size of the hidden layer
@@ -47,14 +43,10 @@ class TwoLayerNetJuan(object):
         # and biases using the keys 'W1' and 'b1' and second layer                 #
         # weights and biases using the keys 'W2' and 'b2'.                         #
         ############################################################################
-        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
         self.params['W1'] = weight_scale * np.random.randn(input_dim, hidden_dim)
         self.params['W2'] = weight_scale * np.random.randn(hidden_dim, num_classes)
         self.params['b1'] = np.zeros(hidden_dim)
         self.params['b2'] = np.zeros(num_classes)
-
-        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
         #                             END OF YOUR CODE                             #
         ############################################################################
@@ -63,16 +55,13 @@ class TwoLayerNetJuan(object):
     def loss(self, X, y=None):
         """
         Compute loss and gradient for a minibatch of data.
-
         Inputs:
         - X: Array of input data of shape (N, d_1, ..., d_k)
         - y: Array of labels, of shape (N,). y[i] gives the label for X[i].
-
         Returns:
         If y is None, then run a test-time forward pass of the model and return:
         - scores: Array of shape (N, C) giving classification scores, where
           scores[i, c] is the classification score for X[i] and class c.
-
         If y is not None, then run a training-time forward and backward pass and
         return a tuple of:
         - loss: Scalar value giving the loss
@@ -88,12 +77,8 @@ class TwoLayerNetJuan(object):
         # TODO: Implement the forward pass for the two-layer net, computing the    #
         # class scores for X and storing them in the scores variable.              #
         ############################################################################
-        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
         X2, relu_cache = affine_relu_forward(X, W1, b1)
         scores, relu2_cache = affine_relu_forward(X2, W2, b2)
-
-        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
         #                             END OF YOUR CODE                             #
         ############################################################################
@@ -113,8 +98,6 @@ class TwoLayerNetJuan(object):
         # automated tests, make sure that your L2 regularization includes a factor #
         # of 0.5 to simplify the expression for the gradient.                      #
         ############################################################################
-        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
         # calculate loss
         loss, softmax_grad = softmax_loss(scores, y)
         loss += 0.5 * self.reg * ( np.sum(W1 * W1) + np.sum(W2 * W2) )
@@ -126,8 +109,6 @@ class TwoLayerNetJuan(object):
         grads['b2'] = db2
         grads['W1'] = dw + self.reg * W1
         grads['b1'] = db
-
-        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
         #                             END OF YOUR CODE                             #
         ############################################################################
@@ -135,18 +116,15 @@ class TwoLayerNetJuan(object):
         return loss, grads
 
 
-class FullyConnectedNetJuan(object):
+class FullyConnectedNet(object):
     """
     A fully-connected neural network with an arbitrary number of hidden layers,
     ReLU nonlinearities, and a softmax loss function. This will also implement
     dropout and batch/layer normalization as options. For a network with L layers,
     the architecture will be
-
     {affine - [batch/layer norm] - relu - [dropout]} x (L - 1) - affine - softmax
-
     where batch/layer normalization and dropout are optional, and the {...} block is
     repeated L - 1 times.
-
     Similar to the TwoLayerNet above, learnable parameters are stored in the
     self.params dictionary and will be learned using the Solver class.
     """
@@ -156,7 +134,6 @@ class FullyConnectedNetJuan(object):
                  weight_scale=1e-2, dtype=np.float32, seed=None):
         """
         Initialize a new FullyConnectedNet.
-
         Inputs:
         - hidden_dims: A list of integers giving the size of each hidden layer.
         - input_dim: An integer giving the size of the input.
@@ -194,8 +171,6 @@ class FullyConnectedNetJuan(object):
         # beta2, etc. Scale parameters should be initialized to ones and shift     #
         # parameters should be initialized to zeros.                               #
         ############################################################################
-        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
         layers_dims = np.hstack([input_dim, hidden_dims, num_classes])
         for i in range(self.num_layers):
             self.params['W'+str(i+1)] = weight_scale*np.random.randn(layers_dims[i],layers_dims[i+1])
@@ -206,8 +181,6 @@ class FullyConnectedNetJuan(object):
             for i in range(self.num_layers-1):
                 self.params['gamma'+str(i+1)] = np.ones(layers_dims[i+1])
                 self.params['beta' +str(i+1)] = np.zeros(layers_dims[i+1])
-
-        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
         #                             END OF YOUR CODE                             #
         ############################################################################
@@ -240,7 +213,6 @@ class FullyConnectedNetJuan(object):
     def loss(self, X, y=None):
         """
         Compute loss and gradient for the fully-connected net.
-
         Input / output: Same as TwoLayerNet above.
         """
         X = X.astype(self.dtype)
@@ -266,8 +238,6 @@ class FullyConnectedNetJuan(object):
         # self.bn_params[1] to the forward pass for the second batch normalization #
         # layer, etc.                                                              #
         ############################################################################
-        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
         x = X
         caches = []
         gamma, beta, bn_params = None, None, None
@@ -285,8 +255,6 @@ class FullyConnectedNetJuan(object):
         b = self.params['b'+str(self.num_layers)]
         scores, cache = affine_forward(x,w,b)
         caches.append(cache)
-
-        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
         #                             END OF YOUR CODE                             #
         ############################################################################
@@ -302,15 +270,14 @@ class FullyConnectedNetJuan(object):
         # data loss using softmax, and make sure that grads[k] holds the gradients #
         # for self.params[k]. Don't forget to add L2 regularization!               #
         #                                                                          #
-        # When using batch/layer normalization, you don't need to regularize the scale   #
-        # and shift parameters.                                                    #
+        # When using batch/layer normalization, you don't need to regularize the   #
+        # scale and shift parameters.                                              #
         #                                                                          #
         # NOTE: To ensure that your implementation matches ours and you pass the   #
         # automated tests, make sure that your L2 regularization includes a factor #
         # of 0.5 to simplify the expression for the gradient.                      #
         ############################################################################
-        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
+        # calculate loss
         loss, softmax_grad = softmax_loss(scores, y)
         for i in range(self.num_layers):
             w = self.params['W'+str(i+1)]
@@ -331,8 +298,6 @@ class FullyConnectedNetJuan(object):
             grads['W' + str(i + 1)] = dw + self.reg * self.params['W' + str(i + 1)]
             grads['b' + str(i + 1)] = db
             dout = dx
-
-        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
         #                             END OF YOUR CODE                             #
         ############################################################################
