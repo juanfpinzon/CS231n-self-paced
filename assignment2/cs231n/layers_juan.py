@@ -480,7 +480,7 @@ def conv_forward_naive(x, w, b, conv_param):
     outW = 1 + (W - FW + 2 * pad) / stride
 
     # create output tensor after convolution layer
-    out = np.zeros((N, F, outH, outW))
+    out = np.zeros((int(N), int(F), int(outH), int(outW)))
 
     # padding all input data
     x_pad = np.pad(x, ((0,0), (0,0),(pad,pad),(pad,pad)), 'constant')
@@ -490,14 +490,14 @@ def conv_forward_naive(x, w, b, conv_param):
     w_row = w.reshape(F, C*FH*FW)                            #[F x C*FH*FW]
 
     # create x_col matrix with values that each neuron is connected to
-    x_col = np.zeros((C*FH*FW, outH*outW))                   #[C*FH*FW x H'*W']
+    x_col = np.zeros((C*FH*FW, int(outH)*int(outW)))                   #[C*FH*FW x H'*W']
     for index in range(N):
         neuron = 0 
         for i in range(0, H_pad-FH+1, stride):
             for j in range(0, W_pad-FW+1,stride):
                 x_col[:,neuron] = x_pad[index,:,i:i+FH,j:j+FW].reshape(C*FH*FW)
                 neuron += 1
-        out[index] = (w_row.dot(x_col) + b.reshape(F,1)).reshape(F, outH, outW)
+        out[index] = (w_row.dot(x_col) + b.reshape(F,1)).reshape(F, int(outH), int(outW))
     ###########################################################################
     #                             END OF YOUR CODE                            #
     ###########################################################################
@@ -583,16 +583,16 @@ def max_pool_forward_naive(x, pool_param):
     outW = 1 + (W - PW) / stride
 
     # create output tensor for pooling layer
-    out = np.zeros((N, C, outH, outW))
+    out = np.zeros((N, C, int(outH), int(outW)))
     for index in range(N):
-        out_col = np.zeros((C, outH*outW))
+        out_col = np.zeros((C, int(outH)*int(outW)))
         neuron = 0
         for i in range(0, H - PH + 1, stride):
             for j in range(0, W - PW + 1, stride):
                 pool_region = x[index,:,i:i+PH,j:j+PW].reshape(C,PH*PW)
                 out_col[:,neuron] = pool_region.max(axis=1)
                 neuron += 1
-        out[index] = out_col.reshape(C, outH, outW)
+        out[index] = out_col.reshape(C, int(outH), int(outW))
     ###########################################################################
     #                             END OF YOUR CODE                            #
     ###########################################################################
