@@ -6,3 +6,6 @@ tiny-100-A-pretrained/*
 
 # exclude solutions
 *_solution*
+
+#folders
+/assignment3/cs231n/datasets/coco_captioning/*
