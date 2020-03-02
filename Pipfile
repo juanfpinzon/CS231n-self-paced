@@ -18,6 +18,7 @@ setuptools = "*"
 cython = "*"
 future = "*"
 torchvision = "*"
+h5py = {index = "p-lock",version = "*"}
 
 [requires]
 python_version = "3.6"
