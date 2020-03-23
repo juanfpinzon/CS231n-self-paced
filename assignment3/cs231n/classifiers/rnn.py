@@ -147,8 +147,8 @@ class CaptioningRNN(object):
         x, cache_we = word_embedding_forward(captions_in, W_embed)         #[NxTxW]
         if self.cell_type == 'rnn':
            h, cache_rnn = rnn_forward(x, h0, Wx, Wh, b)                    #[NxTxH]
-        #else:
-           #h, cache_lstm = lstm_forward(x, h0, Wx, Wh, b)                  #[NxTxH]
+        else:
+           h, cache_lstm = lstm_forward(x, h0, Wx, Wh, b)                  #[NxTxH]
         out, cache_voc = temporal_affine_forward(h, W_vocab, b_vocab)      #[NxTxV]
         loss, dout = temporal_softmax_loss(out, captions_out, mask, verbose=False)
 
@@ -156,8 +156,8 @@ class CaptioningRNN(object):
         dh, dW_vocab, db_vocab = temporal_affine_backward(dout, cache_voc)
         if self.cell_type == 'rnn':
            dx, dh0, dWx, dWh, db = rnn_backward(dh, cache_rnn)
-        # else:
-        #    dx, dh0, dWx, dWh, db = lstm_backward(dh, cache_lstm)
+        else:
+           dx, dh0, dWx, dWh, db = lstm_backward(dh, cache_lstm)
         dW_embed = word_embedding_backward(dx, cache_we)
         dW_proj = features.T.dot(dh0)
         db_proj = dh0.sum(axis=0)
